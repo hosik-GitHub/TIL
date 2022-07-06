@@ -197,8 +197,7 @@ console.log(obj[name]); // "val"
 > 협업을 하다가 한 팀원이 `obj객체`에 `name` 속성이 있는지 모르고
 > 또 `name` 속성을 추가해서 덮어씌어버린다면 코드가 오류 나버린다!<br>
 > 이 속성 값은 건들지 않게 하고 싶은 경우 `Symbol`을 사용한다.
-> 같은 속성 이름으로 값을 추가하더라도 `Symbol`은 다른 존재로 인식 하기 때문에 충돌이 없기 때문이다.<br>
-> `string` 값으로 속성을 추가 하면 바로 덮어 씌어버리기 때문에, `Symbol`을 사용해야한다.<br>
+> 같은 속성 이름으로 값을 추가하더라도 `Symbol`은 다른 존재로 인식 하기 때문에 충돌이 없기 때문이다.<br> > `string` 값으로 속성을 추가 하면 바로 덮어 씌어버리기 때문에, `Symbol`을 사용해야한다.<br>
 > 이것이 `string` 과 `symbol`의 차이
 
 ➡**즉, 다른 사람과 협업할 때, 중요한 속성 값을 보호하기 위함이다.**
@@ -301,6 +300,101 @@ const person2 = Object.create({ name: "hosik", age: 32 });
 > `primitive Type`을 제외하고 올 수 있는 모든 것을 `Ojbect`라고 한다.
 > `primitive Type`: number, string, boolean, bigint, symbol, null or undefined
 > 예를 들어 `{}`객체 형태 또는 `[]`배열 형태가 있다.
+
+---
+
+## Array
+
+✏️ `같은 타입의 요소들을 모아놓은 자료형`
+
+- ❗️배열 안에 있는 요소, 요소들은 같은 타입이다.
+- 원래 자바스크립트에서 array는 객체이다.
+- 사용방법
+  - Array<타입>
+  - 타입[]
+
+```ts
+let list: number[] = [1, 2, 3]; // 이 방식이 더 많이 사용된다.
+let list: Array<number> = [1, 2, 3];
+// Array<number>는 js나 ts에서 충돌 날 위험이 있기 때문이다.
+
+let list: (number | string)[] = [1, 2, 3, "4"];
+// union으로 위에처럼 가능하다.
+// 하지만 ["Mark", 39]의 자료처럼 첫번째는 String, 두번째는 Number의 경우에는
+// Array가 아닌 Tuple을 사용한다.
+```
+
+---
+
+## Tuple
+
+✏️ `배열과 비슷하지만, 자료형에 대한 순서가 있을 때 사용되는 자료형`
+
+> `["Mark", 39]`의 자료처럼 첫번째는 `String`, 두번째는 `Number`의 경우에는 `Array`가 아닌 `Tuple`을 사용한다.
+
+```ts
+let x: [string, number];
+
+x = ["hosik", 32]; // 순서와 타입, 길이 모두 일치해야한다.
+// x = [32, "hosik"] // Error => 순서가 다르기 때문에
+
+// x[2]; // Error => 2번째 인덱스에는 아무것(undefined)도 없기 때문에
+
+const person: [string, number] = ["hosik", 32];
+
+const [] = person; // destructuring (분해할당)
+// person에 있는 요소를 가지고 나와서 [] 변수 안에 넣는다.
+// 순서가 중요하다 => [first, second]
+const [first, second] = person;
+```
+
+---
+
+## Any
+
+✏️ `어떤 것이나 된다는 의미를 가진 타입`
+
+- 정말 어떤 것이든 들어올 수 있는 경우가 있고, 아닌 경우가 있을 수도 있다. 개발자가 타이핑하다가
+  귀찮아진 경우나 어떤 타입인지 모를 때 무심코 쓰게 된다면, 전체적인 문제가 발생할 수 있다.
+
+❗️**즉, Any는 정확히 알고 써야한다.**
+
+```ts
+function returnAny(message): any {
+  console.log(message);
+}
+
+const any1 = returnAny("리턴은 아무거나");
+
+any1.toString(); // 타입에러 뜨지 않음 => any이기 때문이다.
+```
+
+- any를 최대한 쓰지 않는 것이 핵심이다.
+- 왜냐하면 [컴파일 타입](https://ko.wikipedia.org/wiki/%EC%BB%B4%ED%8C%8C%EC%9D%BC_%ED%83%80%EC%9E%84)에 타임체크가 정상적으로 이루어지지 않기 때문이다.
+- 그래서 컴파일 옵션 중에는 any를 써야하는데 쓰지 않으면 오류를 뱉도록 하는 옵션이 있다.
+  ➡ `noImpicitAny`
+- 편의를 위해서 any를 지정하는 순간, 안정선을 잃을 수 있다.
+
+#### Any의 전파력을 알 수 있는 코드
+
+```ts
+let looselyTyped: any = {};
+
+let d = looselyTyped.a.b.c.d;
+// looselyTyped는 any이기에 .a.b.c로 타고 갈 경우에도 any로 지정이 된다.
+// 그로 인해 오류가 발생하지 않는다.
+
+function leakingAny(obj: any) {
+  // const a = obj.num; // a의 타입: any
+  const a: number = obj.num; // a의 타입: number
+  const b = a + 1; // b의 타입 : any => b의 타입 : number
+
+  return b;
+}
+
+const c = leakingAny({ num: 0 });
+// c.indexOf('0')
+```
 
 ---
 
