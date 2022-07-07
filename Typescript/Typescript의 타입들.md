@@ -398,6 +398,127 @@ const c = leakingAny({ num: 0 });
 
 ---
 
+## Unknown
+
+✏️`Any가 가지고 있던 타입에 불안정한 요소를 주는 그러한 부분을 해소시키고자 나온 대체 자료형`
+
+- 응용프로그램을 작성할 때는 모르는 변수의 타입을 묘사해야할 수도 있다.
+  ➡ 모르는 변수를 `any`라고 지정했었던 것
+  이러한 경우에는 api를 얻어서 오는 동적컨텐츠 일 수 있다.
+- 컴파일러와 코드를 작성하는 다른 사람에게 이 변수가 무엇이든 될 수 있음을 알려주는 타입을 제공하기 위해 쓰인다.
+
+```ts
+declare const maybe: unknown;
+
+// const aNumber: number = maybe; (x)
+if (typeof maybe === "number") {
+  // typeof typeguard
+  const aNumber: number = maybe; // (o)
+}
+
+if (maybe === true) {
+  // typeguard
+  const aBoolean: boolean = maybe; // (o)
+  // const aString: string = maybe; // (x)
+}
+
+if (typeof maybe === "string") {
+  // typeof typeguard
+  const aString: string = maybe; // (o)
+  // const aBoolean: boolean = maybe; // (x)
+}
+```
+
+> [declare란?](https://it-eldorado.tistory.com/127)
+> 변수, 상수, 함수, 또는 클래스가 어딘가에 이미 선언되어 있음을 알리는 모듈
+
+> [Type Guard란?](https://chanhuiseok.github.io/posts/ts-2/)
+> 컴파일러가 타입을 예측할 수 있도록 타입을 좁혀 주어서(narrowing) 좀 더 type safety함을 보장할 수 있는 것
+
+- ❗️**Type Guard를 통해서 type을 한정시켜야지만 쓸 수 있는 형태가 unknow이다❗️**
+- Typescript 3.0 버전부터 지원
+- any와 짝으로 any보다 Type-safe한 타입
+  - any와 같이 아무거나 할당할 수 있다.
+    ➡ unknow 자리에는 어떤 것이든 할당하게 하지만, unknow을 어디엔가 사용하게 하려면,
+    컴파일러가 타입을 추론할 수 있게끔 타입의 유형을 좁히거나 타입을 확정해주지 않으면 다른 곳에 할당 할 수 없고 사용할 수도 없다.
+- unknow 타입 사용시 runtime error를 줄일 수 있을 것 같다.
+  - 사용 전에 데이터의 일부 유형의 검사를 수행해야 함을 알리는 API에 사용할 수 있을 것 같다.
+
+---
+
+## never
+
+✏️ `보통 return에서 사용된다.`
+
+```ts
+function error(msg: string): never {
+  throw new Error(msg);
+  // throw를 하면 이 밑으로는 내려오지 않게 된다.
+}
+// never는 아무것도 리턴되지 않는다라는 의미
+// return이나 함수의 body부분이 끝나지 않아야 한다.
+
+function fail() {
+  return error("failed");
+}
+
+function infiniteLoop(): never {
+  while (true) {}
+  // while 밑으로 내려오지 않는다.
+}
+```
+
+- never 타입은 모든 타입의 subtype이며, 모든 타입에 할당 할 수 있다.
+- 하지만 never에는 그 어떤 것도 할당할 수 없다.
+- any조차도 never에겐 할당할 수 없다
+  - 잘못된 타입을 넣는 실수를 막고자 할 때 사용하기도 한다.
+
+```ts
+let a: string = 'hello';
+
+if(typeof a !== 'string') {
+  // string이 아닌 것을 빼면 never
+  let b: never = a;
+}
+
+// 조건문 타입 추후에 알 예정이다.
+type Indexable<T> = T extends string ? T & { [index: string]: any} : never;
+
+type ObjectIndexable<T> = Indexable<{}>'
+// T extends string: T가 만약에 String이면
+// T & { [index: string]: any }:
+// T를 [index: string]: any 이렇게 만들어서 보내고
+// 아니라면 never라는 타입을 보내라는 뜻
+
+// const b: Indexable<{}> = ''; // 오류 => never 타입
+```
+
+---
+
+## Void
+
+✏️ `어떤 타입도 가지고 있지 않는 빈 상태를 의미하는 자료형.`
+
+- 값을 없고, type만 있어서 void라는 값을 쓸 수는 없다.
+- 소문자로 사용
+- 일반적으로 어떤 변수 안에다가 voide라는 것을 annotation하는게 아니고, 값을 반환하지 않는 일종의 undefined를 리턴하는 상태일 때 return타입으로 사용된다.
+- 함수의 반환타입으로 사용
+
+```ts
+function returnVoid(message: string) {
+  console.log(message);
+
+  return;
+}
+const r = returnVoid("리턴이 없다"); // const r: void
+
+function returnVoid(message: string): void {
+  console.log(message);
+
+  return undefined;
+}
+```
+
 ### 참고 자료
 
 - https://laikhan-workshop.tistory.com/41
