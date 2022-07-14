@@ -499,7 +499,7 @@ type ObjectIndexable<T> = Indexable<{}>'
 
 ✏️ `어떤 타입도 가지고 있지 않는 빈 상태를 의미하는 자료형.`
 
-- 값을 없고, type만 있어서 void라는 값을 쓸 수는 없다.
+- 값은 없고, type만 있어서 void라는 값을 쓸 수는 없다.
 - 소문자로 사용
 - 일반적으로 어떤 변수 안에다가 voide라는 것을 annotation하는게 아니고, 값을 반환하지 않는 일종의 undefined를 리턴하는 상태일 때 return타입으로 사용된다.
 - 함수의 반환타입으로 사용
