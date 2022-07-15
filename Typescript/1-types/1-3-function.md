@@ -100,6 +100,65 @@ function 자릿수세기(x: number | string) {
 __number 맞는데 왜 금지일까?__
 x라는 파라미터는 __옵션__이고, 옵션인 파라미터는 number | undefined 이런 식으로 타입 정의가 된다.
 그래서 아직 x라는 파라미터가 뭔지 확실하지 않기 때문에 에러를 낸다.
+```
 
+#### 문제
 
+```ts
+// 이름을 파라미터로 입력하면 콘솔창에 "안녕하세요 홍길동"을 출력해주고
+// 아무것도 파라미터로 입력하지 않고 함수를 사용하면 "이름이 없습니다"를 출력하는 함수 만들기
+// 파라미터와 return 타입지정도 해보기
+
+function sayHi(x?: string) {
+  if (x) {
+    console.log("안녕하세요 " + x);
+  } else {
+    console.log("이름이 없습니다");
+  }
+}
+```
+
+#### 문제
+
+```ts
+// 함수에 숫자 또는 문자를 집어 넣으면 자릿수를 세어 출력해주는 함수는 만들어보기
+// 예를 들어 '245' 이런 문자를 입력하면 3이 return 되어야한다.
+// 숫자도 마찬가지로 9567 이런 숫자를 입력하면 4가 return 되어야한다.
+// 숫자 또는 문자 이외의 자료가 들어오면 안된다.
+
+function numberLength(x: number | string): number {
+  return x.toString().length;
+}
+// number는 문자가 아니기 때문에 toString()으로 변환 후
+// length를 통해 문자의 자릿수를 세어준다.
+```
+
+#### 문제
+
+```ts
+// 결혼 가능 확률을 알려주는 함수 만들어보기
+// 1. 함수의 파라미터로 월소득(만원단위),집보유여부(true/false), 매력점수('상'or'중'or'하')를 입력할 수 있어야한다.
+// 2. 월소득은 만원 당 1점, 집보유시 500점 & 미보유시 0점, 매력점수는 '상'일 때만 100점으로 계산한다.
+// 3. 총 점수가 600점 이상일 경우 "결혼가능" 을 return 해줘야한다. 그 외엔 아무것도 return 하지 않는다.
+
+// (예시)
+// 결혼가능하냐(700, false, '중') 이렇게 사용할 경우 "결혼가능"을 return 해준다.
+// 결혼가능하냐(100, false, '상') 이렇게 사용할 경우 아무것도 return되지 않는다.
+function marry(money: number, house: boolean, charm: string): number | void {
+  let score: number = 0; // score라는 변수를 만들고
+  score += money; // 차례로 money에 따라 score를 +
+  if (house === true) {
+    // house 여부에 따라 score를 +
+    score += 500;
+  }
+  if (charm === "상") {
+    // charm이 상일 경우에 score에 +100
+    score += 100;
+  }
+  if (score >= 600) {
+    // score가 600이상이거나 같을때 '결혼가능'을 리턴한다.
+    return "결혼가능";
+  }
+}
+console.log(marry(100, ture, "상"));
 ```
