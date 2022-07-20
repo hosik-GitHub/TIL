@@ -44,4 +44,3 @@ console.log(cleaning([123, '3']))
 // teacherClass( { subject : ['science', 'art', 'korean' ] } ) => 이 경우 'korean'을 return
 // teacherClass( { subject : 'hi' } ) => 이 경우 타입에러를 나타내면된다.
 
-
