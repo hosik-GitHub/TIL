@@ -44,3 +44,16 @@ console.log(cleaning([123, '3']))
 // teacherClass( { subject : ['science', 'art', 'korean' ] } ) => 이 경우 'korean'을 return
 // teacherClass( { subject : 'hi' } ) => 이 경우 타입에러를 나타내면된다.
 
+function teacherClass ( x: {subject: string | string[]} ) {
+    // 함수에 object 자료를 입력할 수 있다고 써야하는데 여기선 type alias를 만들어 사용했다.
+    if (typeof x.subject === 'string'){
+        return x.subject
+    } else if(Array.isArray(x.subject)){
+        // 이 변수가 array 자료인지 확인하기 위해 Array.isArray() 함수를 사용
+        return x.subject[x.subject.length - 1]
+    } else {
+        return '없다'
+    }
+}
+console.log( teacherClass({subject:['english', 'art']}))
+
