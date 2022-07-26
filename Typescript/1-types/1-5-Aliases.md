@@ -84,3 +84,64 @@ let 여친: Girlfriend = {
 // 한번 부여된 후엔 앞으로 바뀌면 안될 속성들을 readonly로 잠굴 수 있다.
 // 물론 readonly 컴파일시 에러를 내는 것일 뿐 변환된 js 파일을 보면 잘바뀌긴 한다.
 ```
+
+---
+
+### 속성 몇개가 선택사항이라면?
+
+어떤 object자료는 color, width 속성이 둘다 필요하지만
+어떤 object 자료는 color 속성이 선택사항이라면
+type alias를 여러개 만들어야하는게 아니라 물음표연산자만 추가하면 된다.
+
+```ts
+type Square = {
+  color?: string;
+  width: number;
+};
+
+let 네모2: Square = {
+  width: 100,
+};
+```
+
+Square라는 type alias를 적용한 object 자료를 하나 만들었다.
+근데 color 속성이 없어도 에러가 나지 않는다.
+
+물음표는 **"Undefined라는 타입도 가질 수 있다"**라는 뜻임을 잘 기억해두자.
+
+---
+
+### type 키워드 여러개를 합칠 수 있다.
+
+```ts
+type Name = string;
+type Age = number;
+type NewOne = Name | Age;
+// OR 연산자를 이용해서 Union type을 만들 수도 있다.
+// 위 코드에서 NewOne 타입에 마우스를 올려보면 string | number라고 나온다.
+```
+
+```ts
+type PositionX = { x: number };
+type PositionY = { y: number };
+type XandY = PositionX & PositionY;
+let 좌표: XandY = { x: 1, y: 2 };
+// 위 코드에서 XandY 타입은 { x: number, y: number } 이렇게 정의되어 있을 것이다.
+```
+
+- object에 지정한 타입의 경우 extend(합치기)도 가능하다.
+- `&` 기호를 쓴다면 object 안의 두개의 속성을 합쳐준다.
+- 물론 Type alias & Type alias 만 가능한게 아니라 **Type alias & { name: string }** 이렇게도 가능하다.
+
+---
+
+### type 키워드는 재정의가 불가능하다.
+
+```ts
+type Name = string;
+type Name = number;
+// 이렇게 작성을 하면 에러가 발생한다.
+// type 키워드랑 매우 유사한 interface 키워드로 해결할 수 있다.
+// 이 키워드를 쓰면 재정의가 가능하다. 재정의하면 & 하는거랑 똑같은 기능을 하는데
+// 하지만 재정의가 불가능한 편이 좀 더 안정할 것 같다.
+```
