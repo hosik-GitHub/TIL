@@ -115,3 +115,22 @@ class Person {
 - constructor에 의해서 항상 object자료가 생산되기 때문에
 - 필드와 constructor는 똑같은 기능을 한다.
 - 근데 new Person() 사용할 때 파라미터로 뭔가 집어 넣고 싶다면 constructor으로 만들어야한다.
+
+---
+
+# ⚡️ methods 타입지정
+
+class 내부엔 함수를 입력할 수 있다.
+그냥 함수명(){}을 넣으면 끝인데 이 함수는 Person이라는 클래스의 prototype에 추가된다.
+
+```ts
+class Person {
+  add(숫자) {
+    console.log(숫자 + 1);
+  }
+}
+```
+
+이러면 모든 Person의 자식들은 add 라는 함수를 이용 가능하다.</br>
+이 때 add라는 함수 타입 지정은 그냥 함수와 똑같다.</br>
+파라미터 & return 타입지정을 자유롭게 할 수 있다.</br>
