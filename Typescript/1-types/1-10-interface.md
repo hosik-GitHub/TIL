@@ -99,3 +99,70 @@ let 변수: Student & Teacher = { name: "kim", age: 90 };
 
 ➡ 기호 쓰는걸 intersection이라고 부르는데 extends 와 유사하게 사용가능하다.</br>
 (주의) extends 쓸 때 타입끼리 중복 속성이 발견될 경우 에러가 발생하는데 & 쓰면 때에 따라 아닐 수도 있다.
+
+---
+
+# 타입이름 중복선언시
+
+```ts
+interface Animal {
+  name: string;
+}
+interface Animal {
+  legs: number;
+}
+```
+
+➡ interface의 경우 타입이름 중복선언을 허용해주며 중복시 extends 한 것이랑 동일하게 동작한다.</br>
+이러면 Animal 타입은 name, legs 속성을 가질 수 있다.</br>
+(장점)type 선언을 자주 쓰는 외부 라이브러리 이용시 type 선언을 내가 덮어쓰기, override 하기 편리하다.</br>
+
+```ts
+type Animal = {
+  name: string;
+};
+type Animal = {
+  legs: number;
+};
+```
+
+- type의 경우 중복선언을 허용하지 않는다.(이 경우 에러가 발생한다.)
+  그래서 일반적인 상환에선 type를 자주 활용하면 되는데</br>
+  다른 사람이 내 코드를 이용하는 상황이 많으면 inferface로 유연하게 만드는 것이 좋다.</br>
+  그래서 타입스크립트로 작성된 라이브러리들은 interface로 타입정해놓은 곳이 많다.</br>
+  혹은 object 자료형은 전부 interface로 만들고 다른 자료형은 type 키워드로 만들고 이런 것들도 괜찮다.</br>
+  `type과 interface 문법을 잘 알고 있으면 기준은 정하기 나름이다.`
+
+---
+
+# extend 할 때 ojbect 안의 속성이 중복될 경우
+
+```ts
+interface Animal {
+  name: string;
+}
+interface Dog extends Animal {
+  name: number;
+}
+```
+
+Animal을 복사해서 Dog interface를 만들었다</br>
+근데 name 속성이 중복되는데 이렇게 코드를 작성하게되면 에러가 발생한다.</br>
+
+```ts
+interface Animal {
+  name: string;
+}
+interface Dog {
+  name: number;
+}
+
+let 변수: Dog & Animal = { name: "명멍" };
+```
+
+& 연산자 Dog, Animal을 합쳐봤다.</br>
+근데 name 속성이 중복되는데 이것 또한 에러가 발생하게 된다.</br>
+interface 말고도 type 키워드도 똑같은 현상이 일어난다.</br>
+</br>
+(주의) 근데 name :string, name :number 라서 에러가 나는 것이지</br>
+둘다 name :string 타입이면 에러가 나지 않는다. 하나로 합쳐준다.</br>
