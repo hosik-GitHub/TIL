@@ -76,3 +76,46 @@ let [a, b] = ["안녕", 100];
 array 자료도 왼쪽 오른쪽 똑같아보이게 변수 작명해주면 변수로 쉽게 뺄 수 있다.</br>
 다만 특징은 object destructuring 할 땐 **변수 이름을 속성 이름과 맞춰주는게 편리하고**(안맞추면 더 복잡하다)</br>
 array destructuring 할 땐 변수 이름 맘대로 작명 가능하다.</br>
+
+## Destructuring 문법도 함수 파라미터에 사용가능
+
+✏️ `함수 파라미터 작명하는 것도 변수 만드는 문법과 똑같기 때문이다.`</br>
+변수 만들 때 기존 object에 있던 자료를 파라미터로 집어 넣고 싶으면
+
+```ts
+let person = { student: true, age: 20 };
+
+function 함수(a, b) {
+  console.log(a, b);
+}
+함수(person.student, person.age);
+```
+
+기존 object에 있던걸 person.student 이렇게 각각 집어 넣으면 되긴 되는데</br>
+destructuring 문법을 이용하면 약간 더 쉽게 사용 가능하다.</br>
+
+```ts
+let person = { student: true, age: 20 };
+
+function 함수({ student, age }) {
+  console.log(student, age);
+}
+함수({ student: true, age: 20 });
+```
+
+파라미터 변수 만들 때 {student,age}라고 쓰면</br>
+파라미터로 들어오는 {student: 생략}는 student 라는 변수에 저장해주세요~</br>
+파라미터로 들어오는 {age: 생략}는 age 라는 변수에 저장해주세요~</br>
+라는 뜻이다.(object 자료니까 변수 작명할 때 object 속성명으로 잘 작명해야한다.)</br>
+항상 같은 모습의 object,array 자료가 들어올 대 쓰는 문법이라고 보면 된다.</br>
+
+Q. 위의 함수 파라미터에 타입지정해보도록 하자 어떻게 할까?
+
+```ts
+let person = { student: true, age: 20 };
+
+function 함수({ student, age }: { student: boolean; age: number }) {
+  console.log(student, age);
+}
+함수({ student: true, age: 20 });
+```
