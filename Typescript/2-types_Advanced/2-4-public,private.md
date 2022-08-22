@@ -81,3 +81,35 @@ let 유저1 = new User();
 2. 그러면 이제 class 바깥에서도 changeSecret() 함수를 이용하면 간접적으로 familyName을 수정가능하다.
    함수 불러도 에러안나고 수정 잘된다.
    중요한건 아니니 참고 정도로 알아두자
+
+### Q.private를 활용법
+
+A. 개발을 하다보면 소중하게 지켜주고 싶은 중요한 변수나 속성들이 있다.</br>
+예를 들면 위의 예제에선 `familyName ` 이런건데 이걸 외부에서 실수로 수정하거나 그러면 큰일날 것 같은 그런 속성들이다.</br>
+이걸 외부에서 실수로 수정하지 않도록 지켜주고 싶으면 `private`를 붙여보길 바란다.</br>
+그리고 이걸 쓰면 함수를 만들어서 수정해야하니 약간의 안전장치를 더해서 개발이 가능하다.</br>
+버그를 예방해주는 키워드이며, react-redux를 하다보면 자주 보게 될 패턴이다.</br>
+</br>
+
+# Public, private 키워드 쓰면 이런 것도 가능하다.
+
+constructor 안에서 this.name = name 이런걸 생략할 수 있다.
+
+```ts
+class Person {
+  name;
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+let 사람1 = new Person("john");
+
+class Person {
+  constructor(public name: string) {}
+}
+let 사람1 = new Person("john");
+```
+
+위 두개의 코드는 같은 역할을 하는 코드이다.</br>
+"constructor 파라미터에 public 붙이면 this.name = name 이거 생략가능하다" 라는걸 참고하면 되며</br>
+이제 Person으로부터 새로 생산되는 object들은 name 속성을 가질 수 있다.
