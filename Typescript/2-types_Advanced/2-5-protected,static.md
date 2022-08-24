@@ -100,3 +100,27 @@ console.log(철수);
 2. 자식들에게 { intro: 'js 전문가입니다' } 이걸 복사해주고 싶다.
 3. 여기서 js라는 단어가 중요할 것 같아서 static skill 이 곳에다가 메모해놓고 그걸 사용했다.
 4. 이제 자식들은 철수.intro 이렇게 사용할 때 마다 'js 전문가입니다'를 출력해줄 것이다.
+
+근데 갑자기 skill을 좀 변경하고 싶다</br>
+철수 이후로 생산되는 자식들은 **'js 전문가입니다'**가 아니라 **'python 전문가입니다'**를 달고 나오게 하고싶다.</br>
+그럴 대 class 내부를 직접 js => python 이렇게 수정해도 되지만</br>
+class가 멀리 떨어져 있거나 다른 파일에 있을 경우 귀찮을 수 있다.</br>
+다행히 static 키워드로 만들어놨기 때문에 그걸 수정해버려도 된다.</br>
+
+```ts
+class User {
+  static skill = "js";
+  intro = User.skill + "전문가입니다";
+}
+var 철수 = new User();
+console.log(철수);
+
+User.skill = "python";
+var 민수 = new User();
+console.log(민수);
+```
+
+User.skill을 저렇게 수정해버리면</br>
+이제 민수부터는 'python 전문가입니다' 이걸 달고 등장할 것이다.</br>
+하지만 실은 class 내부의 기본 변수 같은걸 저렇게 수정할 일은 별로 없다.</br>
+`수정하고 싶으면 private 쓰고 그 다음에 수정함수를 만들어서 사용하는게 더 안전한 방법이다.`
