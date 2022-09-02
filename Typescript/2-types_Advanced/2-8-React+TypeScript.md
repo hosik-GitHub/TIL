@@ -76,3 +76,65 @@ function App(props: AppProps): JSX.Element {
 props 파라미터는 어떻게 생겼는지 조사해서 타입지정해주면 되고 </br>
 컴포넌트는 return으로 JSX를 뱉으니 return 타입으로 JSX.Element 써주면 된다. </br>
 근데 생략해도 자동으로 타입지정이 된다. </br>
+
+```ts
+<Container a={<h4>안녕</h4>} />;
+
+function Container(props) {
+  return <div>{props.a}</div>;
+}
+```
+
+참고로 props로 JSX를 입력할 수 있게 코드를 짜는 경우도 있다. </br>
+그럴 땐 JSX.intrinsicElements 라는 이름의 타입을 사용 가능하다. </br>
+`<div> <a> <h4>` 같은 기본 태그들을 표현해주는 타입인데 </br>
+위 컴포넌트에 타입을 넣고 싶으면 </br>
+
+```ts
+type ContainerProps = {
+  a: JSX.IntrinsicElements["h4"];
+};
+
+function Container(props: ContainerProps) {
+  return <div>{props.a}</div>;
+}
+```
+
+이런 식으로 넣을 수도 있다 </br>
+이제 a라는 props자리에 `<h4>`만 넣을 수 있게 타입쉴드를 씌워놓은 것이다. </br>
+
+## 4. state 문법 사용시 타입지정
+
+state 만들 땐 그냥 자동으로 타입이 할당되어서 걱정할 필요는 없다. </br>
+state 타입이 나중에 변화할 수 있다? 그런 경우는 흔치 않지만 그러면 미리 지정해라 </br>
+
+```ts
+const [user, setUser] = useState<string | null>("kim");
+```
+
+그냥 <> 열고 타입 넣으면 된다. </br>
+Generic 문법을 이용해서 타입을 useState함수에 집어넣는 식으로 설정하면 된다. </br>
+
+## 5. type assertion 문법 사용할 때
+
+```ts
+let code: any = 123;
+let employeeCode = <number>code; // 안된다.
+```
+
+assertion 하고 싶으면 as 또는 <> 쓰면 되는데 </br>
+리액트에서 컴포넌트로 오해할 수 있어서 꺾쇠 괄호는 리액트에서 쓰지 않는다. </br>
+그래서 as 키워드만 사용한다. </br>
+하지만 as 키워드는 타입스크립트 보완해제기 때문에 타입이 100% 확실할 때만 사용하도록 하자. </br>
+
+### 결론
+
+결론은 타입스크립트 쓴다고 뭔가 리액트 개발방식이 달라지는게 아니라 </br>
+
+함수 변수 정의부분 타입지정을 할 수 있다는 것만 달라진다. </br>
+
+"props엔 무조건 { name : string }만 들어올 수 있다" </br>
+
+이런 문법을 작성하는게 끝이고 그냥 에디터 부가기능 수준일 뿐이다. </br>
+
+여러분이 변수 함수 class 타입지정 하는 법을 잘 배우셨으면 누구나 응용가능하다. </br>
