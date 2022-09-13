@@ -99,3 +99,45 @@ import export 그런거 안해도 같은 폴더에 있는 ts 파일은 그냥 �
 왜냐하면 그냥 ts 파일에 입력한 변수와 타입들은 전부 global 변수 취급을 받는다 </br>
 전역으로 쓸 수 있는 파일을 전문용어로 **ambient module**이라고 칭한다. </br>
 (타입스크립트에서 let name 이라는 이름의 변수 생성이 안되는 이유를 여기서 찾을 수 있다. 어디선가 기본으로 let name을 이미 쓰고 있다) </br>
+</br>
+
+반면에 import 혹은 export 키워드가 들어간 ts 파일은 다르다. </br>
+**import / export 키워드가 적어도 하나 있으면** 그 파일은 로컬 모듈이 되고 </br>
+거기 있는 모든 변수는 export를 해줘야 다른 파일에서 사용 가능하다. </br>
+그래서 타입스크립트 파일이 다른 파일에 영향 끼치는 걸 막고 싶으면 export 키워드를 강제로 추가하면 된다. </br>
+
+```ts
+data.ts;
+export {};
+type Age = number;
+let 나이: Age = 20;
+```
+
+```ts
+index.ts;
+
+console.log(나이 + 1); // 불가능
+let 철수: Age = 30; // 불가능
+```
+
+이러면 data.ts에 있던 파일은 더 이상 글로벌 모듈(ambient module)이 되지 않으며 </br>
+다른 파일에서 함부로 가져다 쓸 수 없다. (import export 써야함) </br>
+
+## declare global
+
+ts 파일에 import export 문법이 없으면 글로벌 모듈이 된다. </br>
+ts 파일에 import export 문법이 있으면 로컬 모듈이다. </br>
+근데 로컬 모듈에서 갑자기 전역으로 변수를 만들고 싶을 때는 어떻게 해야할까? </br>
+따로 설정 없어도 프로젝트 내의 모든 파일에서 이용 가능한 타입을 만들고 싶으면 </br>
+이걸 붙여서 만들면 된다. </br>
+
+```ts
+declare global {
+  type Dog = string;
+}
+```
+
+이런 코드를 로컬파일에 적어두면 모든 파일에서 Dog 타입을 이용 가능하다. </br>
+이것도 일종의 **namespace 문법**인데 여기다 적은건 global 이라는 이름의 namespace에 추가된다고 보면 된다. </br>
+그리고 global namespace는 모든 파일에서 기본적으로 이용이 가능하다. </br>
+로컬 모듈에서 전역변수를 만들고 싶을 때 사용한다. </br>
