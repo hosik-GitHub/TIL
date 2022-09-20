@@ -86,3 +86,52 @@ let obj :StringOnly = {
 **쉽게 말하면 { 모든숫자속성:string}**이라는 뜻과 동일하다.</br>
 그래서 array처럼 쓰고 싶은 object가 있으면 저렇게 타입지정도 가능하다는 소리이다.</br>
 숫자 key만 넣을거면 그냥 array + tuple 타입 쓰는게 더 직관적일 수 있다.</br>
+
+## Recursiv Index Signatures
+
+아래와 같은 것을 타입지정할 생각 해본 적이 있나? </br>
+
+```ts
+let obj = {
+  "font-size": {
+    "font-size": {
+      "font-size": 14,
+    },
+  },
+};
+```
+
+object 안에 object 안에 object가 들어있다. </br>
+실제로는 별로 쓸모가 없어보이지만 중첩된 object들을 한 번에 타입지정하려면 어떻게 해야할까? </br>
+직접 interface 안에 {} 이걸 3번 중첩되게 만들어도 되긴 하지만 </br>
+
+```ts
+interface MyType {
+  "font-size": {
+    "font-size": {
+      "font-size": number;
+    };
+  };
+}
+```
+
+번거로울 경우 이런 테크닉을 사용할 수 있다. </br>
+
+```ts
+interface MyType {
+  "font-size": MyType | number;
+}
+
+let obj: MyType = {
+  "font-size": {
+    "font-size": {
+      "font-size": 14,
+    },
+  },
+};
+```
+
+MyType을 만들었는데 </br>
+'font-size' 속성은 MyType 이거랑 똑같이 생겼다고 타입을 만들었다. </br>
+그럼 이제 타입을 번거롭게 길게 중첩해서 안써도 된다. </br>
+그리고 object자료가 4중첩 5중첩 X중첩되어도 대응 가능하다. </br>
