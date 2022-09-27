@@ -49,11 +49,56 @@ let age1: FirstItem<strin[]>;
 let age2: FirstItem<number>;
 ```
 
-이러면 age1의 타입은 string, age2의 타입은 any가 되어야한다.
-FirstItem이라는 타입을 만들어보자.
+이러면 age1의 타입은 string, age2의 타입은 any가 되어야한다. <br>
+FirstItem이라는 타입을 만들어보자. <br>
 
 ```ts
 type FirstItem<T> = T extends any[] ? T[0] : any;
 let age1: FirstItem<strin[]>;
 let age2: FirstItem<number>;
 ```
+
+## infer 키워드
+
+조건문에 사용할 수 있는 특별한 infer 키워드가 있다. <br>
+infer 키워드는 지금 입력한 타입을 변수로 만들어주는 키워드이다. <br>
+
+```ts
+type Person<T> = T extends infer R ? R : unknown;
+tyep 새타입 = Person<string> // 새타입은 string 타입
+```
+
+1. infer 키워드는 조건문 안에서만 사용가능하다.
+2. infer 우측에 자유롭게 작명해주면 타입을 T에서 유추해서 R이라는 변수에 집어넣어라~ 라는 뜻이다.
+   그래서 위 예제에서 `<string>` 이렇게 타입파라미터 자리에 string 집어넣으면 R은 string이 된다.
+3. R을 조건식 안에서 맘대로 사용 가능하다.
+   <br>
+
+이런 식으로 **타입파라미터에서 타입을 추출해서** 쓰고 싶을 때 쓰는 키워드라고 보면 된다. <br>
+<br>
+근데 무슨 용도로 쓰는지 알아야 나중에 코드를 짤 때 활용이 가능한데 어디에 쓰냐면<br>
+<br>
+
+1. array 안에 있던 타입이 어떤 타입인지 뽑아서 변수로 만들어줄 수 있다.<br>
+
+```ts
+type 타입추출<T> = T extends (infer R)[] ? R : unknown;
+type NewType = 타입추출<boolean[]>; // NewType은 boolean 타입
+```
+
+이런 식으로도 사용할 수 있는데 <br>
+(infer R)[] 이렇게하면 array가 가지고 있던 타입부분만 뽑아서 R 변수에 할당할 수 있다. <br>
+<br>
+
+2. 함수의 return 타입이 어떤 타입인지 뽑아서 변수로 만들어줄 수 있다.
+
+```ts
+type 타입추출<T> = T extends () => infer R ? R : unknown;
+type NewType = 타입추출<() => number>; // NewType은 number 타입
+```
+
+타입파라미터에 <함수>를 집어넣었다. 그 타입파라미터에 있는 retrun 타입을 뽑아서 R이라는 변수에 담는 코드이다. <br>
+일정한 규칙이 있다기 보다 그냥 타입을 추출하는 식으로 이해하면 된다. <br>
+<br>
+하지만 이런 것도 직접 만들어쓸 필요는 없고<br>
+RetrunType<> 이런 예약 타입이 있는데 여기에 함수타입을 집어넣으면 return 타입만 뽑아서 알려준다.<br>
