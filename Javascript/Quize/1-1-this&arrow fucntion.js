@@ -40,3 +40,28 @@ var 자료 = {
     console.log(합);
   }
   자료.전부더하기();
+
+// Quiz 3. setTimeout 이용해보기
+
+{/* <button id="버튼">버튼이에요</button>
+
+<script>
+
+  document.getElementById('버튼').addEventListener('click', function(){
+    console.log(this.innerHTML)
+  });
+
+</script> */}
+
+// 그럼 setTimeout을 이용해서 1초 후에 this.innerHTML을 콘솔창에 출력하고 싶으면 어떻게 코드를 수정해야할까?
+// 1초 후에 '버튼이에요'라는 글자가 콘솔창에 등장하면 성공
+
+<button id="버튼">버튼이에요</button>
+
+<script>
+
+  document.getElementById('버튼').addEventListener('click', function(){
+    setTimeout(()=>{ console.log(this.innerHTML) }, 1000); 
+  });
+
+</script>
