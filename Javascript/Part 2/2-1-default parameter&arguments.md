@@ -60,3 +60,45 @@ b자리에 파라미터가 들어오지 않으면 임시함수()를 실행한 �
 임시함수()를 실행하면 그 자리에 10이 남는다.<br>
 (Return 10이 그 뜻이다.)<br>
 그래서 console.log(3 + 10)을 실행해준다.<br>
+
+# ⚡️ arguments
+
+함수의 모든 파라미터들을 전부 한꺼번에 싸잡아서 다루고 싶은 경우가 있다 <br>
+그럴 땐 arguments라는 키워드를 활용하면 된다. <br>
+(함수 안에서 쓸 수 있는 미리 정의된 키워드 혹은 변수) <br>
+
+```js
+function 함수(a, b, c) {
+  console.log(arguments);
+}
+
+함수(2, 3, 4);
+```
+
+그러면 콘솔창에 [2,3,4]를 담은 array 비슷한 자료가 출력된다. <br>
+arguments는 즉, 모든 입력된 파라미터를 [] 안에 싸매주는 키워드이다. <br>
+<br>
+
+콘솔창에 모든 파라미터를 하나씩 출력해주고 싶은 경우
+
+```js
+function 함수(a, b, c) {
+  console.log(arguments[0]);
+  console.log(arguments[1]);
+  console.log(arguments[2]);
+}
+
+함수(2, 3, 4);
+```
+
+조금 더 확장성 있게 반복문을 사용한다면 <br>
+
+```js
+function 함수(a, b, c) {
+  for (var i = 0; i < arguments.length; i++) {
+    console.log(arguments[i]);
+  }
+}
+
+함수(2, 3, 4);
+```
