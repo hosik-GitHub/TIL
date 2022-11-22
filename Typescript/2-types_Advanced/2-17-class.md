@@ -68,3 +68,39 @@ var 자식 = new 부모();
 이 함수 안에 오브젝트를 넣으면 부모 prototype을 출력해준다.<br>
 이 오브젝트가 대체 누구로부터 prototype을 상속받고 있는지를 알려주는 함수<br>
 `__proto__`라는 키워드와 비슷한 역할을 한다고 보면 된다.<br>
+
+### constructor안에 파라미터 추가하기
+
+ES6 방식으로 constructor 만들 때 파라미터를 추가하려면 이렇게 하면 된다.
+
+```js
+class 부모 {
+  constructor(이름, 나이) {
+    this.name = 이름;
+    this.age = 나이;
+  }
+}
+var 자식 = new 부모("Park", 30);
+```
+
+이런 식으로 하면 파라미터를 넣어서 constructor를 만들 수 있다.<br>
+(자식을 생성할 때 파라미터 두개를 입력할 수 있음)<br>
+
+### prototype 내에 함수 여러개 추가하기
+
+```js
+class 부모 {
+  constructor(이름, 나이) {
+    this.name = 이름;
+    this.age = 나이;
+  }
+  sayHi() {
+    console.log("안녕");
+  }
+  sayHello() {
+    console.log("안녕하세요");
+  }
+}
+
+var 자식 = new 부모("Park");
+```
