@@ -36,7 +36,7 @@ class Dog {
     }
   }
 
-// Quiz 2.고양이와 강아지 object들에게 기능 추가
+// Quiz 3.고양이와 강아지 object들에게 기능 추가
 
 // 모든 고양이와 강아지 object들은 .한살먹기()라는 함수를 사용할 수 있다.
 // (1) 한살먹기 함수는 강아지 class로부터 생성된 오브젝트가 사용하면 콘솔창에 에러를 출력
@@ -66,3 +66,36 @@ class Dog {
 // 그래서 한살먹기()라는 함수를 만들고 this.age++를 해주는 기능을 넣었는데 이 기능은 this가 instanceof Cat인 경우에만
 // 실행하도록 if문을 추가했다.
 // 그럼 이제 Cat으로부터 생성된 오브젝트들만 한살먹기() 내부 기능을 사용가능하다.
+
+
+// Quiz 4. get/set을 이용해보기
+
+// (1) 모든 Unit의 인스터스는 공격력, 체력 속성이 있으며 기본 공격력은 5, 기본 체력은 100으로 설정
+// (2) 모든 Unit의 인스턴스는 전투력을 측정해주는 battlePoint라는 getter가 있다.
+// console.log(인스턴스.battlePoint) 이렇게 사용하면 현재 공격력과 체력을 더한 값을 콘솔창에 출력
+// (3) 모든 Unit의 인스턴스는 heal이라는 stter가 있다.
+// 인스턴스.heal = 50 이렇게 사용하면 체력 속성이 50 증가
+
+class Unit {
+  constructor(){
+    this.체력 = 100;
+    this.공격력 = 5;
+  }
+  get battlePoint(){
+    return this.체력 + this.공격력;
+  }
+  set heal(a){
+    this.체력 = this.체력 + a; 
+  }
+};
+
+var 쎈애 = new Unit();
+
+console.log(쎈애.battlePoint);
+쎈애.heal = 50;
+
+// 1. Unit이라는 class를 만들고 constructor에는 체력과 공격력을 기본으로 부여
+// 2. battlePoint() 라는 함수를 만들고 이건 체력과 공격력을 합해서 출력하는 기능
+// get을 붙여서 소괄호 없이도 이용하게 만듬
+// 3. heal() 이라는 함수를 만들었고 파라미터로 숫자를 입력하면 체력이 그만큼 증가
+// set을 붙여서 소괄호없이도 이용 가능
