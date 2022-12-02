@@ -99,3 +99,31 @@ console.log(쎈애.battlePoint);
 // get을 붙여서 소괄호 없이도 이용하게 만듬
 // 3. heal() 이라는 함수를 만들었고 파라미터로 숫자를 입력하면 체력이 그만큼 증가
 // set을 붙여서 소괄호없이도 이용 가능
+
+// Quiz 5. get/set을 이용해보기2
+
+var data = {
+  odd : [],
+  even : []
+}
+
+// 다음과 같은 오브젝트가 있다
+// (1) data 오브젝트에는 setter 역할 함수가 하나 필요하다.
+// setter 함수에 1,2,3,4 이렇게 아무 자연수나 파라미터로 입력하면 홀수는 odd, 짝수는 even 이라는 속성에 array 형태로 저장
+// (2) data 오브젝트에는 getter 역할 함수가 하나 필요하다.
+// getter 함수를 사용하면 odd, even에 저장된 모든 데이터들이 숫자순으로 정렬되어 출력되어야한다.
+
+// 예를 들면
+// data.setter함수(1,2,3,4,5) 이렇게 입력하면
+// data = { odd:[1,3,5], even:[2,4] }
+// 이렇게 저장이 되어야한다.
+
+var data = {
+  odd : [1,3],
+  even : [2,4,6],
+  get getter함수(){
+    return [...this.odd, ...this.even ].sort()
+  }
+};
+
+console.log(data.getter함수);
