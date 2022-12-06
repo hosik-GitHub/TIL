@@ -89,3 +89,64 @@ var obj = { name, age };
 
 name : name 이렇게 key값과 value값이 동일하면<br>
 name 이렇게 하나로 생략이 가능하다.<br>
+
+### 함수 파라미터 변수 만들 때도 똑같이 적용 가능
+
+함수가 하나 있는데 이 함수는 두개의 파라미터를 입력할 수 있다.<br>
+여기에 object 내의 Kim, 그리고 age 자료들을 입력하고 싶으면?<br>
+
+```js
+function 함수(name, age) {
+  console.log(name);
+  console.log(age);
+}
+
+var obj = { name: "Kim", age: 20 };
+함수(obj, name, obj, age);
+```
+
+destructuring 문법
+
+```js
+function 함수({ name, age }) {
+  console.log(name);
+  console.log(age);
+}
+
+var obj = { name: "Kim", age: 20 };
+함수(obj);
+```
+
+아마 obj.name, obj.name 이걸 두개 뽑지 않고도 넣을 수 있다.<br>
+왜냐면 파라미터는 실은 변수 만드는거랑 똑같은 행위기 때문에 변수 만드는 문법을 그대로 적용할 수 있는 것이다.<br>
+<br>
+파라미터를 입력할 때<br>
+{name, age} = {name:'Kim',age:20}<br>
+이거 한거랑 똑같다.(많이 사용하진 않는다)<br>
+<br>
+함수 파라미터로 array 내의 데이터들을 집어넣고 싶으면?<br>
+
+```js
+function 함수(name, age) {
+  console.log(name);
+  console.log(age);
+}
+
+var array = ["Kim", 30];
+함수(array[0], array[1]);
+```
+
+destructuring 문법
+
+```js
+function 함수([name, age]) {
+  console.log(name);
+  console.log(age);
+}
+
+var array = ["Kim", 30];
+함수(["Kim", 30]);
+```
+
+파라미터인 [name, age]를 만들 때 ['Kim',30] 이걸 그대로 대입해서 만드는 것이다<br>
+그럼 각각 name과 age에는 Kim과 30이라는 데이터가 들어간다.<br>
