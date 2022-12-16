@@ -55,3 +55,35 @@ var 프로미스 = new Promise(function(성공, 실패) {
   console.log(결과);
 })
 
+// Quiz 3. Promise chaining
+
+// 2번 문제를 then을 이용해 인삿말을 또 출력해보고싶다.
+// 1. hello.txt GET 요청
+// 2. 그게 완료되면 hello2.txt GET 요청
+// 3. 그게 완료되면 hello2.txt 결과를 콘솔창에 출력
+
+// 2번에서 만든 코드를 어떻게 업데이트하면 될까?
+
+
+var 프로미스 = new Promise(function(성공, 실패) {
+  $.get('https://codingapple1.github.io/hello.txt').done(function(결과){
+    성공(결과)
+  });
+});
+
+프로미스.then(function(결과) {
+console.log(결과);
+
+var 프로미스2 = new Promise(function(성공, 실패) {
+  $.get('https://codingapple1.github.io/hello2.txt').done(function(결과){
+    성공(결과)
+  })
+});
+
+return 프로미스2;
+
+}).then(function(결과) {
+  console.log(결과);
+}) 
+
+
