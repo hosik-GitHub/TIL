@@ -1,0 +1,28 @@
+// Quiz 1. <button>을 누르면 성공하는 Promise 만들기
+
+// Q. HTML 페이지 내에 버튼을 하나 만들고
+// 그걸 클릭하면 성공하는 Promise를 만들고싶다.
+// 성공하면 콘솔창에 '성공했어요'를 출력하게 만들기
+
+
+<button id="test">버튼</button>
+
+<script>
+  var 프로미스 = new Promise(function(성공, 실패){
+      document.getElementById('test').addEventListener('click', function(){
+        성공();
+      });
+  })
+  async function 버튼누르기(){
+    var 결과 = await 프로미스;
+    console.log('성공했으요')
+  }
+
+  버튼누르기();
+</script>
+
+// 1. 위의 버튼을 누르면 성공판정을 내리는 Promise를 만들고
+// 2. 이제 그게 성공하면 console.log()를 해주는 코드를 짜려고 봤더니 then을 쓰기 싫어서
+//    await 프로미스; 이렇게 작성
+// 3. 근데 await을 쓰려면 async function 안에서만 쓸 수 있다고 했다.
+//    그래서 await 프로미스; 코드를 async funciton을 하나 만들어서 감쌌다.
