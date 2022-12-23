@@ -81,3 +81,37 @@ for (var key in 오브젝트) {
 오브젝트가 이 key값을 직접 가지고 있냐라고 물어보는 함수이다.<br>
 갖고 있으면 true, 없으면 false를 뱉어준다.<br>
 그래서 내가 가진 것만 반복시키고 싶으면 이걸 꼭 사용해야한다.<br>
+
+### for of 반복문
+
+```js
+var 어레이 = [2, 3, 4, 5];
+for (var 자료 of 어레이) {
+  console.log(자료);
+}
+```
+
+어레이 안에 있떤 모든 자료를 하나씩 콘솔창에 출력할 수 있다.<br>
+array 자료형 뿐만 아니라<br>
+array, 문자, arguments, NodeList, Map, Set 이라는 자료형에 적용할 수 있는 반복문이다.<br>
+<br>
+
+근데 정확히 말하면 iterable인 자료형들에만 적용가능한 반복문이다.<br>
+iterable한 자료형이란<br>
+[Symbol.iterable]() 이라는 일종의 메소드를 가지고 있는 자료형들을 뜻한다.<br>
+
+```js
+var 어레이 = [2, 3, 4, 5];
+console.log(어레이[Symbol.iterator]());
+```
+
+array 자료형 뒤에 붙이면 뭔가 출력된다.<br>
+문자도 그렇다.<br>
+반복문 출력을 도와주는 일종의 함수라고 생각하면 된다.<br>
+<br>
+for of는 NodeList라는 곳에도 사용할 수 있는데<br>
+우리가 흔히 document.getElementsByClassName()이나 document.querySelectorAll() <br>
+이런 셀렉터로 찾은 요소들이 [] 대활호아넹 담겨오는데 array는 아니고 NodeList라는 자료형이라고 부른다.<br>
+NodeList안에 있는 HTML요소들을 하나씩 꺼내서 처리할 때<br>
+매우 자주 쓸 수 있는 반복문이다.<br>
+(for of의 호환성의 주의)
