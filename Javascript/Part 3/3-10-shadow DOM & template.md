@@ -38,3 +38,49 @@ web component 문법과 합하면 더욱 진가를 발휘한다.<br>
 
 Web Component 쓰면 html 함수처럼 묶어서 재사용할 수 있다고 했는데<br>
 여기에 스타일을 넣고 싶을 경우 약간 문제가 생길 수 있다.<br>
+
+```js
+class 클래스 extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `<label>이름을 입력하세요</label><input>
+      <style> label { color : red } </style>`;
+  }
+}
+
+customElements.define("custom-input", 클래스);
+```
+
+```html
+<custom-input></custom-input> <label>왜 나까지 빨개짐?</label>
+```
+
+스타일까지 함께 컴포넌트화하고 싶으면 컴포넌트 안에 `<style>`을 집어넣는게 좋다.<br>
+근데 이렇게 label 태그를 빨간색으로 스타일링 해놨는데<br>
+이럴 경우 컴포넌트와 관계없는 다른 태그까지 오염이 발생할 수 있다.<br>
+<br>
+그렇다고 CSS 적으로 class를 만들어서 해결한다고 해도<br>
+다른 곳과 class가 겹치면 문제가 생긴다<br>
+그럴 땐 스타일을 shadow DOM 열어서 거기에 집어넣으면 된다.<br>
+왜냐면 shadow DOM에 있는 스타일은 밖에 영향을 끼치지 않아서 그렇다.<br>
+
+```js
+class 클래스 extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = `<label>이름을 입력하세요</label><input>
+      <style> label { color : red } </style>`;
+  }
+}
+
+customElements.define("custom-input", 클래스);
+```
+
+```html
+<custom-input></custom-input> <label>오 이제 바깥건 안빨개짐</label>
+```
+
+스타일과 태그들을 전부 shadow DOM으로 집어넣어놨더니<br>
+진짜 다른 태그들 스타일을 오염시키지 않는다.<br>
+그래서 대부분 Web Component 만들 때 shadow DOM을 활용한다.<br>
+이래야 진정한 의미의 html 모듈화 개발이 가능하다.<br>
+다른 모듈들이 서로 영향을 끼치는걸 막을 수 있기 때문.<br>
