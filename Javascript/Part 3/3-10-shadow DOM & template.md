@@ -84,3 +84,63 @@ customElements.define("custom-input", 클래스);
 그래서 대부분 Web Component 만들 때 shadow DOM을 활용한다.<br>
 이래야 진정한 의미의 html 모듈화 개발이 가능하다.<br>
 다른 모듈들이 서로 영향을 끼치는걸 막을 수 있기 때문.<br>
+
+### html 임시보관함 `<template>` 태그
+
+컴포넌트 만들 때 html이 너무 길어지면 <br>
+`<template>`태그에 잠깐 보관해두고 집어넣을 수도 있다.
+
+```js
+<custom-input></custom-input>
+
+  <template id="template1">
+    <label>이메일을 입력하쇼</label><input>
+    <style>label { color : red }</style>
+  </template>
+
+  <script>
+    class 클래스 extends HTMLElement {
+      connectedCallback() {
+        this.attachShadow({mode : 'open'});
+        this.shadowRoot.append(template1.content.cloneNode(true));
+      }
+    }
+    customElements.define("custom-input", 클래스);
+  </script>
+```
+
+1. `<template>`은 특수한 태그인데 여기에 적은 html은 렌더링되지 않는다. <br>
+2. 그래서 거기에 html들 잠깐 보관하고 <br>
+3. this.shadowRoot.append(template1.content.cloneNode(true)) 이런 식으로 집어넣으면 된다. <br>
+
+### 이벤트 리스너를 부착하고 싶다면
+
+addEventListener 아무데나 코드짜서 부착하면 된다. <br>
+심지어 shadow DOM에도 이벤트리스너 부착 가능하다. <br>
+
+```js
+<custom-input></custom-input>
+
+  <template id="template1">
+    <label>이메일을 입력하쇼</label><input>
+    <style>label { color : red }</style>
+  </template>
+
+  <script>
+    class 클래스 extends HTMLElement {
+      connectedCallback() {
+        this.attachShadow({mode : 'open'});
+        this.shadowRoot.append(template1.content.cloneNode(true));
+        let el = this.shadowRoot.querySelector('label');
+        el.addEventListener('click', function(){
+          console.log('클릭함')
+        })
+      }
+    }
+    customElements.define("custom-input", 클래스);
+  </script>
+```
+
+shadow DOM 안의 label 태그를 누르면 콘솔창에 '클릭함' 출력하는 이벤트리스너는 부착해봤다<br>
+이런 식으로 자바스크립트도 컴포넌트안에 담아서 보관할 수도 있다.<br>
+이제 원하는 곳에서 class만 export 해서 가져다 쓰면 컴포넌트로 모듈식 개발이 가능하다.<br>
